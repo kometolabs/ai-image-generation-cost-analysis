@@ -1,0 +1,14 @@
+node_modules/
+logs/
+dist/
+.env
+.env.local
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+images/
+report.md
+
+CLAUDE.md

@@ -27,8 +27,18 @@ export async function runGenerateText(
 
     const wallLatencyMs = Date.now() - start
 
-    // Images are in result.files - filter to image media types
-    const imageFiles = (result.files ?? []).filter((f) => f.mediaType?.startsWith('image/'))
+    // Images are in result.files - filter to image media types.
+    // Deduplicate by content: the Vercel AI SDK can add the same image twice
+    // when transforming Gemini's response parts (known SDK-level issue).
+    const seen = new Set<string>()
+    const imageFiles = (result.files ?? [])
+      .filter((f) => f.mediaType?.startsWith('image/'))
+      .filter((f) => {
+        const key = Buffer.from(f.uint8Array).toString('base64').slice(0, 64)
+        if (seen.has(key)) return false
+        seen.add(key)
+        return true
+      })
 
     if (opts.saveImages && imageFiles.length > 0) {
       fs.mkdirSync(opts.outputDir, { recursive: true })

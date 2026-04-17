@@ -1,6 +1,7 @@
 import { generateImage } from 'ai'
 import fs from 'node:fs'
 import path from 'node:path'
+import { config } from "../config.js";
 import type { ModelConfig, RunResult } from '../types.js'
 
 export interface GenerateImageOptions {
@@ -26,15 +27,26 @@ export async function runGenerateImage(
 
   try {
     const dimensionParam = model.preferSize
-      ? { size: (opts.size ?? '1024x1024') as Parameters<typeof generateImage>[0]['size'] }
-      : { aspectRatio: (opts.aspectRatio ?? '1:1') as Parameters<typeof generateImage>[0]['aspectRatio'] }
+      ? {
+          size: (model.size ?? opts.size ?? config.size) as Parameters<
+            typeof generateImage
+          >[0]["size"],
+        }
+      : {
+          aspectRatio: (opts.aspectRatio ?? "1:1") as Parameters<
+            typeof generateImage
+          >[0]["aspectRatio"],
+        };
 
     const result = await generateImage({
       model: model.id,
       prompt,
       n: opts.n ?? 1,
       ...dimensionParam,
-    })
+      ...(model.providerOptions
+        ? { providerOptions: model.providerOptions }
+        : {}),
+    });
 
     const wallLatencyMs = Date.now() - start
 

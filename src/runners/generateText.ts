@@ -53,7 +53,7 @@ export async function runGenerateText(
       }
     }
 
-    const gateway = result.providerMetadata?.gateway ?? { cost: null }
+    const gatewayMeta = result.providerMetadata?.gateway as any
 
     return {
       model,
@@ -61,7 +61,7 @@ export async function runGenerateText(
       wallLatencyMs,
       imageCount: imageFiles.length,
       savedImages,
-      cost: (gateway as any)?.cost,
+      cost: gatewayMeta?.cost,
     }
   } catch (error) {
     return {

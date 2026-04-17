@@ -38,7 +38,7 @@ for (const model of allModels) {
 
   if (result.success) {
     const cost = result.cost != null ? ` $${result.cost}` : ''
-    console.log(`OK ${(result.wallLatencyMs / 1000).toFixed(2)}s, ${result.imageCount} image(s)${cost}`)
+    console.log(`OK ${(result.wallLatencyMs / 1000).toFixed(2)}s*, ${result.imageCount} image(s)${cost}`)
   } else {
     console.log(`FAILED: ${result.error?.slice(0, 70)}`)
   }

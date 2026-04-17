@@ -1,7 +1,7 @@
 import { generateImage } from 'ai'
 import fs from 'node:fs'
 import path from 'node:path'
-import { config } from "../config.js";
+import { config } from '../config.js'
 import type { ModelConfig, RunResult } from '../types.js'
 
 export interface GenerateImageOptions {
@@ -28,25 +28,19 @@ export async function runGenerateImage(
   try {
     const dimensionParam = model.preferSize
       ? {
-          size: (model.size ?? opts.size ?? config.size) as Parameters<
-            typeof generateImage
-          >[0]["size"],
+          size: (model.size ?? opts.size ?? config.size) as Parameters<typeof generateImage>[0]['size'],
         }
       : {
-          aspectRatio: (opts.aspectRatio ?? "1:1") as Parameters<
-            typeof generateImage
-          >[0]["aspectRatio"],
-        };
+          aspectRatio: (opts.aspectRatio ?? '1:1') as Parameters<typeof generateImage>[0]['aspectRatio'],
+        }
 
     const result = await generateImage({
       model: model.id,
       prompt,
       n: opts.n ?? 1,
       ...dimensionParam,
-      ...(model.providerOptions
-        ? { providerOptions: model.providerOptions }
-        : {}),
-    });
+      ...(model.providerOptions ? { providerOptions: model.providerOptions } : {}),
+    })
 
     const wallLatencyMs = Date.now() - start
 
@@ -63,7 +57,7 @@ export async function runGenerateImage(
       }
     }
 
-    const gateway = result.providerMetadata?.gateway ?? { cost: null }
+    const gatewayMeta = result.providerMetadata?.gateway as any
 
     return {
       model,
@@ -71,7 +65,7 @@ export async function runGenerateImage(
       wallLatencyMs,
       imageCount: result.images.length,
       savedImages,
-      cost: (gateway as any)?.cost,
+      cost: gatewayMeta?.cost,
     }
   } catch (error) {
     return {

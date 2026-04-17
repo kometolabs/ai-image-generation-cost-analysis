@@ -1,4 +1,4 @@
-import type { gateway as gatewayFn, JSONValue } from 'ai'
+import type { JSONValue } from 'ai'
 
 export type ModelType = 'generateText' | 'generateImage'
 
@@ -8,8 +8,8 @@ export interface ModelConfig {
   type: ModelType // Which SDK function to use
   provider: string // Provider display name
   notes?: string
-  // Set to false to skip this model during runs. Defaults to true (enabled).
-  enabled?: boolean
+  // Set to false to skip this model during runs.
+  enabled: boolean
   // Set to true for models that use `size` (e.g. '1024x1024') instead of `aspectRatio`.
   // Recraft and OpenAI models fall into this category.
   preferSize?: boolean
@@ -21,10 +21,6 @@ export interface ModelConfig {
   // (e.g. BFL models require width/height in pixels since they don't support aspectRatio natively).
   providerOptions?: Record<string, Record<string, JSONValue>>
 }
-
-// Derive the generation info type directly from the SDK so we don't manually
-// duplicate field definitions. Includes totalCost, promptTokens, generationTime, etc.
-export type GatewayGenerationInfo = Awaited<ReturnType<typeof gatewayFn.getGenerationInfo>>
 
 export interface RunResult {
   model: ModelConfig

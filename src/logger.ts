@@ -23,7 +23,7 @@ export async function writeReport(prompt: string, results: RunResult[], reportPa
     `|-------|-------|----------|-------|`,
     ...rows,
     ``,
-    `\\* wall time (gateway generation time unavailable)`,
+    `\\* wall time (gateway generation time unavailable for this model)`,
   ].join('\n')
 
   await Bun.write(reportPath, md)

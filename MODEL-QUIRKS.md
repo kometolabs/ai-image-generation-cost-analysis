@@ -51,8 +51,9 @@ rather than `aspectRatio` (e.g. `'1:1'`). Passing `aspectRatio` is silently igno
 **Adaptation:** Set `preferSize: true` on the model config. The runner then passes
 `size` instead of `aspectRatio`.
 
-**Affected models:** `recraft/recraft-v3`, `recraft/recraft-v4`, `recraft/recraft-v4-pro`,
-`openai/gpt-image-1`
+**Affected models:** `recraft/recraft-v3`, `recraft/recraft-v4`, `recraft/recraft-v4-pro`, `openai/gpt-image-1`
+
+**Confirmed via:** SDK warning `"The feature 'aspectRatio' is not supported. Use size instead."` on recraft-v3 and recraft-v4.
 
 **Code:** `src/models.ts` - `preferSize` field; `src/runners/generateImage.ts` - `dimensionParam`
 
@@ -69,6 +70,19 @@ and will error.
 **Affected models:** `xai/grok-imagine-image`, `xai/grok-imagine-image-pro`
 
 **Code:** `src/models.ts` - comment on xAI section
+
+---
+
+## xAI - grok-imagine-image-pro fails when run last in the model list
+
+**Quirk:** `xai/grok-imagine-image-pro` intermittently returns a failure (Service Unavailable)
+when it runs after a long sequence of other models in the same benchmark run. The root cause
+is unclear - possibly rate limiting, session timeout, or provider-side queue behavior.
+
+**Symptom:** The model succeeds when run in isolation but fails at the end of a full run.
+
+**Adaptation:** Run `xai/grok-imagine-image-pro` in a separate isolated run with all other
+models disabled (`enabled: false`).
 
 ---
 

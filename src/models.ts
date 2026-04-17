@@ -151,7 +151,7 @@ export const generateImageModels: ModelConfig[] = [
     name: 'Grok Imagine',
     type: 'generateImage',
     provider: 'xAI',
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'xai/grok-imagine-image-pro',

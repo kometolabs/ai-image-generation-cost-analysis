@@ -27,7 +27,4 @@ export const config = {
 
   // Path for the generated Markdown report.
   reportPath: './report.md',
-
-  // Gateway base URL (override via AI_GATEWAY_BASE_URL env var if needed).
-  gatewayBaseUrl: process.env['AI_GATEWAY_BASE_URL'] ?? 'https://ai-gateway.vercel.sh/v1',
 }

@@ -2,7 +2,7 @@
 
 Benchmark image generation models behind Vercel AI Gateway, save the generated images, and produce a Markdown report with cost and latency per model.
 
-Blog post: `TODO: add post link`
+A companion blog post with benchmark results and conclusions: [komelin.com/blog/ai-image-generation-cost-analysis](https://komelin.com/blog/ai-image-generation-cost-analysis)
 
 ## What It Does
 
@@ -14,14 +14,26 @@ Blog post: `TODO: add post link`
 
 ## Models Covered
 
-This repo includes model configs for:
+This repo currently includes all enabled models from [`src/models.ts`](./src/models.ts):
 
-- Google Gemini image-capable models
-- Google Imagen models
-- Black Forest Labs Flux models
-- Recraft models
-- OpenAI `gpt-image-1`
-- xAI Grok Imagine models
+- `google/gemini-2.5-flash-image`
+- `google/gemini-3.1-flash-image-preview`
+- `google/gemini-3-pro-image`
+- `google/imagen-4.0-fast-generate-001`
+- `google/imagen-4.0-generate-001`
+- `google/imagen-4.0-ultra-generate-001`
+- `bfl/flux-2-flex`
+- `bfl/flux-2-pro`
+- `bfl/flux-pro-1.1`
+- `bfl/flux-pro-1.1-ultra`
+- `bfl/flux-kontext-pro`
+- `bfl/flux-kontext-max`
+- `recraft/recraft-v3`
+- `recraft/recraft-v4`
+- `recraft/recraft-v4-pro`
+- `openai/gpt-image-1`
+- `xai/grok-imagine-image`
+- `xai/grok-imagine-image-pro`
 
 Provider-specific quirks and workarounds are documented in [MODEL-QUIRKS.md](./MODEL-QUIRKS.md).
 
@@ -37,7 +49,7 @@ bun install
 
 ## Configure
 
-## Create and add Vercel AI Gateway API Key
+### Create and add Vercel AI Gateway API Key
 
 Create an API key at https://vercel.com/d?to=/[team]/~/ai-gateway/api-keys
 
@@ -51,7 +63,7 @@ Set the `AI_GATEWAY_API_KEY` environment variable `.env.example`:
 export AI_GATEWAY_API_KEY=your_key_here
 ```
 
-## Configure benchmark
+### Configure benchmark
 
 Edit [src/config.ts](./src/config.ts) to change:
 

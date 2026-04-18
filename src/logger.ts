@@ -5,12 +5,12 @@ export async function writeReport(prompt: string, results: RunResult[], reportPa
   const rows = results.map((r) => {
     const model = `\`${r.model.id}\``
     const price = r.cost != null ? `$${r.cost}` : '-'
-    const duration = r.success ? `${(r.wallLatencyMs / 1000).toFixed(1)}s*` : 'FAILED'
+    const latency = r.success ? `${(r.wallLatencyMs / 1000).toFixed(1)}s*` : 'FAILED'
     const image = r.savedImages[0]
       ? `![${r.model.name}](${path.relative(path.dirname(reportPath), r.savedImages[0])})`
       : '-'
 
-    return `| ${model} | ${price} | ${duration} | ${image} |`
+    return `| ${model} | ${price} | ${latency} | ${image} |`
   })
 
   const md = [
@@ -19,7 +19,7 @@ export async function writeReport(prompt: string, results: RunResult[], reportPa
     `**Run:** ${new Date().toISOString()}`,
     `**Prompt:** ${prompt}`,
     ``,
-    `| Model | Price | Duration | Image |`,
+    `| Model | Price | Latency | Image |`,
     `|-------|-------|----------|-------|`,
     ...rows,
     ``,

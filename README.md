@@ -34,6 +34,7 @@ This repo currently includes all enabled models from [`src/models.ts`](./src/mod
 - `openai/gpt-image-1`
 - `xai/grok-imagine-image`
 - `xai/grok-imagine-image-pro`
+- `prodia/flux-fast-schnell`
 
 Provider-specific quirks and workarounds are documented in [MODEL-QUIRKS.md](./MODEL-QUIRKS.md).
 

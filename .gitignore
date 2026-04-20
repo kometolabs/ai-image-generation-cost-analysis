@@ -9,7 +9,7 @@ dist/
 *.webp
 
 images/
-report.md
+report*
 
 CLAUDE.md
 AGENTS.md

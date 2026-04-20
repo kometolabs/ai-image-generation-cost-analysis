@@ -160,6 +160,15 @@ export const generateImageModels: ModelConfig[] = [
     provider: 'xAI',
     enabled: true,
   },
+  // Prodia - FLUX.1 Schnell via Vercel AI Gateway
+  {
+    id: 'prodia/flux-fast-schnell',
+    name: 'Flux Schnell',
+    type: 'generateImage',
+    provider: 'Prodia',
+    notes: 'Ultra-fast, distilled model',
+    enabled: true,
+  },
 ]
 
 export const allModels: ModelConfig[] = [...generateTextModels, ...generateImageModels].filter((m) => m.enabled)

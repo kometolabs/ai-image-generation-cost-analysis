@@ -14,3 +14,4 @@ report*
 CLAUDE.md
 AGENTS.md
 .codex
+src/add-captions.ts

@@ -14,27 +14,7 @@ A companion blog post with benchmark results and conclusions: [komelin.com/blog/
 
 ## Models Covered
 
-This repo currently includes all enabled models from [`src/models.ts`](./src/models.ts):
-
-- `google/gemini-2.5-flash-image`
-- `google/gemini-3.1-flash-image-preview`
-- `google/gemini-3-pro-image`
-- `google/imagen-4.0-fast-generate-001`
-- `google/imagen-4.0-generate-001`
-- `google/imagen-4.0-ultra-generate-001`
-- `bfl/flux-2-flex`
-- `bfl/flux-2-pro`
-- `bfl/flux-pro-1.1`
-- `bfl/flux-pro-1.1-ultra`
-- `bfl/flux-kontext-pro`
-- `bfl/flux-kontext-max`
-- `recraft/recraft-v3`
-- `recraft/recraft-v4`
-- `recraft/recraft-v4-pro`
-- `openai/gpt-image-1`
-- `xai/grok-imagine-image`
-- `xai/grok-imagine-image-pro`
-- `prodia/flux-fast-schnell`
+Full list of the tested models [`src/models.ts`](./src/models.ts):
 
 Provider-specific quirks and workarounds are documented in [MODEL-QUIRKS.md](./MODEL-QUIRKS.md).
 

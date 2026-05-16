@@ -86,6 +86,17 @@ models disabled (`enabled: false`).
 
 ---
 
+## Prodia - flux-fast-schnell failed to generate during the latest run
+
+**Quirk:** `prodia/flux-fast-schnell` - normally the cheapest model in the
+benchmark - failed to generated an image during the latest run while every other enabled model
+succeeded.
+
+**Adaptation:** None on our side - the issue was reported to Vercel. Track the report
+and re-enable in subsequent runs to verify resolution.
+
+---
+
 ## Google Gemini - duplicate images in result.files
 
 **Quirk:** When calling `generateText` with a Gemini image model, the Vercel AI SDK

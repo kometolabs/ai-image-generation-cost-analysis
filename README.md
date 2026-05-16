@@ -48,7 +48,7 @@ Create an API key at https://vercel.com/d?to=/[team]/~/ai-gateway/api-keys
 cp .env.example .env
 ```
 
-Set the `AI_GATEWAY_API_KEY` environment variable `.env.example`:
+Set the `AI_GATEWAY_API_KEY` environment variable `.env`:
 
 ```bash
 export AI_GATEWAY_API_KEY=your_key_here
@@ -70,12 +70,6 @@ Edit [src/models.ts](./src/models.ts) to enable or disable models or adjust mode
 
 ```bash
 bun start
-```
-
-For development:
-
-```bash
-bun dev
 ```
 
 ### Add caption pills to images

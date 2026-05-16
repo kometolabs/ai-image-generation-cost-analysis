@@ -19,7 +19,6 @@ export async function generateThumbnails(results: RunResult[], opts: ThumbnailOp
   for (const r of results) {
     for (const imagePath of r.savedImages) {
       const out = path.join(opts.thumbnailDir, path.basename(imagePath))
-      if (fs.existsSync(out)) continue
       await sharp(imagePath).resize(size, size, { fit: 'cover' }).toFile(out)
       written.push(out)
     }

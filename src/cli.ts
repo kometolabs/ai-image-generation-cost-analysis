@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import path from 'node:path'
 import { config } from './config.js'
 import { writeReport } from './logger.js'
@@ -17,6 +18,10 @@ const outputDir = path.resolve(config.outputDir)
 const thumbnailDir = path.resolve(config.thumbnailDir)
 const chartsDir = path.resolve(config.chartsDir)
 const reportPath = path.resolve(config.reportPath)
+const resultsDir = path.dirname(reportPath)
+
+console.log(`Cleaning ${resultsDir}...`)
+fs.rmSync(resultsDir, { recursive: true, force: true })
 
 console.log(`\nPrompt: "${config.prompt.slice(0, 80)}..."`)
 console.log(`Models: ${allModels.length}\n`)
@@ -59,9 +64,9 @@ console.log('\nGenerating thumbnails...')
 const thumbnails = await generateThumbnails(results, { thumbnailDir })
 console.log(`  ${thumbnails.length} new thumbnail(s) -> ${thumbnailDir}`)
 
-console.log('\nGenerating charts...')
-const charts = await generateCharts(results, { chartsDir })
-console.log(`  ${charts.length} chart(s) -> ${chartsDir}`)
-
 const absReportPath = await writeReport(config.prompt, results, reportPath)
 console.log(`\nReport: ${absReportPath}`)
+
+console.log('\nGenerating charts...')
+const charts = await generateCharts({ reportPath, chartsDir })
+console.log(`  ${charts.length} chart(s) -> ${chartsDir}`)

@@ -1,9 +1,9 @@
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas'
 import fs from 'node:fs'
 import path from 'node:path'
-import type { RunResult } from '../types.js'
 
 export interface ChartOptions {
+  reportPath: string
   chartsDir: string
   width?: number
   height?: number
@@ -18,26 +18,50 @@ interface ChartSpec {
   filename: string
 }
 
+interface ReportRow {
+  model: string
+  price: number
+  duration: number
+}
+
 const FONT = 'Inter, sans-serif'
 const BG = '#ffffff'
 
-export async function generateCharts(results: RunResult[], opts: ChartOptions): Promise<string[]> {
+// Parses the Markdown comparison table from report.md.
+// Expects rows shaped as: | `model/id` | $price | latencys | image |
+// Failed rows (latency = "FAILED") and rows without a numeric price are dropped.
+function parseReport(md: string): ReportRow[] {
+  const rows = md
+    .split('\n')
+    .filter((line) => line.startsWith('|') && !/^[\s|:-]+$/.test(line))
+    .slice(1) // skip header row
+
+  return rows
+    .map((row) => {
+      const cols = row
+        .split('|')
+        .map((c) => c.trim())
+        .filter(Boolean)
+      const model = cols[0]?.replace(/`/g, '') ?? ''
+      const price = parseFloat((cols[1] ?? '').replace('$', ''))
+      const duration = parseFloat((cols[2] ?? '').replace('s', ''))
+      return { model, price, duration }
+    })
+    .filter((r) => r.model && Number.isFinite(r.price) && Number.isFinite(r.duration))
+}
+
+export async function generateCharts(opts: ChartOptions): Promise<string[]> {
   const width = opts.width ?? 1200
   const height = opts.height ?? 600
+
+  if (!fs.existsSync(opts.reportPath)) return []
+  const md = await Bun.file(opts.reportPath).text()
+  const data = parseReport(md)
+  if (data.length === 0) return []
 
   fs.mkdirSync(opts.chartsDir, { recursive: true })
 
   const date = new Date().toISOString().slice(0, 10)
-
-  const data = results
-    .filter((r) => r.success && r.cost != null)
-    .map((r) => ({
-      model: r.model.id,
-      price: parseFloat(r.cost as string),
-      duration: r.wallLatencyMs / 1000,
-    }))
-
-  if (data.length === 0) return []
 
   const byPrice = [...data].sort((a, b) => a.price - b.price)
   const byDuration = [...data].sort((a, b) => a.duration - b.duration)

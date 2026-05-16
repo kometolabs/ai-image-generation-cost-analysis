@@ -48,10 +48,13 @@ export async function writeReport(
   const totalCost = results.reduce((sum, r) => sum + (r.cost != null ? parseFloat(r.cost) : 0), 0)
   const totalCostStr = `$${parseFloat(totalCost.toFixed(8))}`
 
+  // Trailing double-space forces a Markdown <br> between adjacent lines.
+  const br = '  '
+
   const md = [
     `# AI Image Model Benchmark`,
     ``,
-    `**Run:** ${new Date().toISOString()}`,
+    `**Run:** ${new Date().toISOString()}${br}`,
     `**Prompt:** ${prompt}`,
     ``,
     `| Model | Price | Latency | Image |`,
@@ -60,7 +63,7 @@ export async function writeReport(
     ``,
     `**Total spent:** ${totalCostStr}`,
     ``,
-    `_The latency here is wall time, measured by the benchmark script._`,
+    `_The latency here is wall time, measured by the benchmark script._${br}`,
     `_The cost, however, is returned by the gateway, so it should be accurate._`,
   ].join("\n");
 

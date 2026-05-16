@@ -32,7 +32,6 @@
 | `prodia/flux-fast-schnell` | - | FAILED | - |
 
 **Total spent:** $1.8116689
-**Total time:** 339.6s
 
 _The latency here is wall time, measured by the benchmark script._
 _The cost, however, is returned by the gateway, so it should be accurate._

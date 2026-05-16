@@ -46,9 +46,7 @@ export async function writeReport(
   })
 
   const totalCost = results.reduce((sum, r) => sum + (r.cost != null ? parseFloat(r.cost) : 0), 0)
-  const totalLatencyMs = results.reduce((sum, r) => sum + (r.success ? r.wallLatencyMs : 0), 0)
   const totalCostStr = `$${parseFloat(totalCost.toFixed(8))}`
-  const totalLatencyStr = `${(totalLatencyMs / 1000).toFixed(1)}s`
 
   const md = [
     `# AI Image Model Benchmark`,
@@ -61,7 +59,6 @@ export async function writeReport(
     ...rows,
     ``,
     `**Total spent:** ${totalCostStr}`,
-    `**Total time:** ${totalLatencyStr}`,
     ``,
     `_The latency here is wall time, measured by the benchmark script._`,
     `_The cost, however, is returned by the gateway, so it should be accurate._`,

@@ -177,13 +177,6 @@ export const generateImageModels: ModelConfig[] = [
     provider: 'xAI',
     enabled: true,
   },
-  {
-    id: 'xai/grok-imagine-image-pro',
-    name: 'Grok Imagine Pro',
-    type: 'generateImage',
-    provider: 'xAI',
-    enabled: true,
-  },
   // Prodia - FLUX.1 Schnell via Vercel AI Gateway
   {
     id: 'prodia/flux-fast-schnell',

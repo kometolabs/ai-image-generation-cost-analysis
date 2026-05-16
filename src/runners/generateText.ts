@@ -42,12 +42,11 @@ export async function runGenerateText(
 
     if (opts.saveImages && imageFiles.length > 0) {
       fs.mkdirSync(opts.outputDir, { recursive: true })
-      const timestamp = Date.now()
 
-      for (const [i, file] of imageFiles.entries()) {
+      for (const file of imageFiles) {
         const ext = file.mediaType?.split('/')[1] ?? 'png'
         const slug = model.id.replace('/', '-')
-        const filepath = path.join(opts.outputDir, `${slug}-${timestamp}-${i}.${ext}`)
+        const filepath = path.join(opts.outputDir, `${slug}.${ext}`)
         await fs.promises.writeFile(filepath, file.uint8Array)
         savedImages.push(filepath)
       }

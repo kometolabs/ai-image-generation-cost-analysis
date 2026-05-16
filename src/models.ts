@@ -151,6 +151,46 @@ export const generateImageModels: ModelConfig[] = [
     size: '2048x2048',
     enabled: true,
   },
+  {
+    id: 'recraft/recraft-v4.1',
+    name: 'Recraft V4.1',
+    type: 'generateImage',
+    provider: 'Recraft',
+    notes: 'Expressive standard tier of V4.1 - improved photorealism and illustration',
+    preferSize: true,
+    enabled: true,
+  },
+  {
+    id: 'recraft/recraft-v4.1-pro',
+    name: 'Recraft V4.1 Pro',
+    type: 'generateImage',
+    provider: 'Recraft',
+    notes: 'Premium tier - print-ready assets, large-format display',
+    preferSize: true,
+    // Mirror the V4 Pro quirk: pro tiers generally require 2x resolution.
+    size: '2048x2048',
+    enabled: true,
+  },
+  {
+    id: 'recraft/recraft-v4.1-utility',
+    name: 'Recraft V4.1 Utility',
+    type: 'generateImage',
+    provider: 'Recraft',
+    notes: 'Utility tier - flat lighting, front-facing, ecommerce/mockups',
+    preferSize: true,
+    enabled: true,
+  },
+  {
+    id: 'recraft/recraft-v4.1-utility-pro',
+    name: 'Recraft V4.1 Utility Pro',
+    type: 'generateImage',
+    provider: 'Recraft',
+    notes: 'Premium utility - production-grade catalogs and design systems',
+    preferSize: true,
+    // Match V4 Pro quirk pre-emptively; adjust if the model accepts 1024x1024.
+    size: '2048x2048',
+    enabled: true,
+  },
   // OpenAI (use `size` param, not `aspectRatio`)
   {
     id: 'openai/gpt-image-1',

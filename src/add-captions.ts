@@ -5,8 +5,8 @@
  *
  * Usage: bun run src/add-captions.ts [--input ./results/images] [--output ./results/images/captioned]
  *
- * Filename format produced by runners: {provider}-{model-slug}-{13-digit-timestamp}-{index}.{ext}
- * e.g. bfl-flux-pro-1.1-1776689737504-0.jpeg  →  provider "BFL", model "Flux Pro 1.1"
+ * Filename format produced by runners: {provider}-{model-slug}.{ext}
+ * e.g. bfl-flux-pro-1.1.jpeg  →  provider "BFL", model "Flux Pro 1.1"
  */
 
 import * as fs from "node:fs";
@@ -69,15 +69,14 @@ function parseFilename(filename: string): {
   modelName: string;
 } {
   const base = path.basename(filename, path.extname(filename));
-  const withoutSuffix = base.replace(/-\d{13}-\d+$/, "");
 
-  const firstDash = withoutSuffix.indexOf("-");
+  const firstDash = base.indexOf("-");
   if (firstDash === -1) {
-    return { provider: withoutSuffix, modelName: withoutSuffix };
+    return { provider: base, modelName: base };
   }
 
-  const providerSlug = withoutSuffix.slice(0, firstDash);
-  const modelSlug = withoutSuffix.slice(firstDash + 1);
+  const providerSlug = base.slice(0, firstDash);
+  const modelSlug = base.slice(firstDash + 1);
 
   const provider = PROVIDER_DISPLAY[providerSlug] ?? titleCase(providerSlug);
   const modelName = titleCase(modelSlug);

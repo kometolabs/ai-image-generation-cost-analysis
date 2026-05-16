@@ -46,12 +46,11 @@ export async function runGenerateImage(
 
     if (opts.saveImages && result.images.length > 0) {
       fs.mkdirSync(opts.outputDir, { recursive: true })
-      const timestamp = Date.now()
 
-      for (const [i, image] of result.images.entries()) {
+      for (const image of result.images) {
         const ext = image.mediaType?.split('/')[1] ?? 'png'
         const slug = model.id.replace('/', '-')
-        const filepath = path.join(opts.outputDir, `${slug}-${timestamp}-${i}.${ext}`)
+        const filepath = path.join(opts.outputDir, `${slug}.${ext}`)
         await fs.promises.writeFile(filepath, Buffer.from(image.base64, 'base64'))
         savedImages.push(filepath)
       }

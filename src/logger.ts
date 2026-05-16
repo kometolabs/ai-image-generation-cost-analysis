@@ -1,10 +1,9 @@
 import path from 'node:path'
 import type { RunResult } from './types.js'
 
-// Public URL bases for the report. Images live in /results/images and
-// thumbnails share the same filename inside /results/images/thumbnails.
-const IMAGE_URL_BASE = '/results/images'
-const THUMBNAIL_URL_BASE = '/results/images/thumbnails'
+export interface ReportOptions {
+  thumbnailDir: string
+}
 
 function formatPrice(cost?: string): string {
   if (cost == null) return '-'
@@ -14,7 +13,19 @@ function formatPrice(cost?: string): string {
   return `$${cleaned}`
 }
 
-export async function writeReport(prompt: string, results: RunResult[], reportPath: string): Promise<string> {
+export async function writeReport(
+  prompt: string,
+  results: RunResult[],
+  reportPath: string,
+  opts: ReportOptions,
+): Promise<string> {
+  const reportDir = path.dirname(path.resolve(reportPath))
+  const toRel = (p: string) => {
+    const rel = path.relative(reportDir, path.resolve(p))
+    // Prefix sibling paths with ./ for explicit relativity (Markdown-friendly).
+    return rel.startsWith('.') ? rel : `./${rel}`
+  }
+
   const rows = results.map((r) => {
     const model = `\`${r.model.id}\``
     const price = formatPrice(r.cost);
@@ -25,8 +36,8 @@ export async function writeReport(prompt: string, results: RunResult[], reportPa
     let image = "-";
     if (r.savedImages[0]) {
       const basename = path.basename(r.savedImages[0]);
-      const full = `${IMAGE_URL_BASE}/${basename}`;
-      const thumb = `${THUMBNAIL_URL_BASE}/${basename}`;
+      const full = toRel(r.savedImages[0])
+      const thumb = toRel(path.join(opts.thumbnailDir, basename))
       image = `[![${r.model.name}](${thumb})](${full})`;
       if (r.model.size) image += ` (${r.model.size})`;
     }
@@ -40,7 +51,7 @@ export async function writeReport(prompt: string, results: RunResult[], reportPa
   const totalLatencyStr = `${(totalLatencyMs / 1000).toFixed(1)}s`
 
   const md = [
-    `# Image Generation Cost Report`,
+    `# AI Image Model Benchmark`,
     ``,
     `**Run:** ${new Date().toISOString()}`,
     `**Prompt:** ${prompt}`,

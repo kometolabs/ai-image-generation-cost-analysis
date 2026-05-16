@@ -64,7 +64,7 @@ console.log('\nGenerating thumbnails...')
 const thumbnails = await generateThumbnails(results, { thumbnailDir })
 console.log(`  ${thumbnails.length} new thumbnail(s) -> ${thumbnailDir}`)
 
-const absReportPath = await writeReport(config.prompt, results, reportPath)
+const absReportPath = await writeReport(config.prompt, results, reportPath, { thumbnailDir })
 console.log(`\nReport: ${absReportPath}`)
 
 console.log('\nGenerating charts...')

@@ -2,6 +2,8 @@ import path from 'node:path'
 import { config } from './config.js'
 import { writeReport } from './logger.js'
 import { allModels } from './models.js'
+import { generateCharts } from './phases/generateCharts.js'
+import { generateThumbnails } from './phases/generateThumbnails.js'
 import { runGenerateImage } from './runners/generateImage.js'
 import { runGenerateText } from './runners/generateText.js'
 import type { RunResult } from './types.js'
@@ -12,6 +14,8 @@ if (!process.env['AI_GATEWAY_API_KEY']) {
 }
 
 const outputDir = path.resolve(config.outputDir)
+const thumbnailDir = path.resolve(config.thumbnailDir)
+const chartsDir = path.resolve(config.chartsDir)
 const reportPath = path.resolve(config.reportPath)
 
 console.log(`\nPrompt: "${config.prompt.slice(0, 80)}..."`)
@@ -51,5 +55,13 @@ for (const model of allModels) {
   }
 }
 
+console.log('\nGenerating thumbnails...')
+const thumbnails = await generateThumbnails(results, { thumbnailDir })
+console.log(`  ${thumbnails.length} new thumbnail(s) -> ${thumbnailDir}`)
+
+console.log('\nGenerating charts...')
+const charts = await generateCharts(results, { chartsDir })
+console.log(`  ${charts.length} chart(s) -> ${chartsDir}`)
+
 const absReportPath = await writeReport(config.prompt, results, reportPath)
-console.log(`Report: ${absReportPath}`)
+console.log(`\nReport: ${absReportPath}`)

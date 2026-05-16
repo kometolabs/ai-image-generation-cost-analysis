@@ -5,11 +5,15 @@
   "scripts": {
     "start": "bun run src/cli.ts",
     "dev": "bun --watch run src/cli.ts",
+    "captions": "bun run src/add-captions.ts",
     "typecheck": "tsc --noEmit",
     "format": "biome format --write src/"
   },
   "dependencies": {
-    "ai": "^6.0.184"
+    "ai": "^6.0.184",
+    "chart.js": "^4.5.1",
+    "chartjs-node-canvas": "^5.0.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",

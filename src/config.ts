@@ -23,8 +23,14 @@ export const config = {
   delayBetweenRequestsMs: 1000,
 
   // Directory for saved images.
-  outputDir: './images',
+  outputDir: "./results/images",
+
+  // Directory for image thumbnails (used in the Markdown report).
+  thumbnailDir: "./results/images/thumbnails",
+
+  // Directory for generated chart PNGs (cost, latency).
+  chartsDir: "./results/images/charts",
 
   // Path for the generated Markdown report.
-  reportPath: './report.md',
-}
+  reportPath: "./results/report.md",
+};

@@ -4,12 +4,22 @@ Benchmark image generation models behind Vercel AI Gateway, save the generated i
 
 A companion blog post with benchmark results and conclusions: [komelin.com/blog/ai-image-generation-cost-analysis](https://komelin.com/blog/ai-image-generation-cost-analysis)
 
+## Results
+
+Latest run - see the full table with per-model images in [results/report.md](./results/report.md).
+
+[![Cost per image](./results/images/charts/cost.png)](./results/images/charts/cost.png)
+
+[![Latency](./results/images/charts/latency.png)](./results/images/charts/latency.png)
+
 ## What It Does
 
 - Runs multiple image generation models through a single CLI.
 - Supports both `generateImage` and `generateText` image-producing models from the Vercel AI SDK.
-- Saves generated images to `./images`.
-- Writes a Markdown report to `./report.md`.
+- Saves generated images to `./results/images`.
+- Generates square thumbnails to `./results/images/thumbnails`.
+- Renders cost and latency bar charts to `./results/images/charts`.
+- Writes a Markdown report to `./results/report.md`.
 - Tracks provider-reported cost when available.
 
 ## Models Covered
@@ -68,18 +78,28 @@ For development:
 bun dev
 ```
 
+### Add caption pills to images
+
+Overlays a compact provider/model pill onto each saved image:
+
+```bash
+bun captions
+```
+
+Reads from `./results/images` and writes to `./results/images/captioned`. Pass `--input` / `--output` to override.
+
 ## Output
 
-The CLI prints progress for each model and generates:
+The CLI prints progress for each model and runs four phases:
 
-- `images/` with one or more saved outputs per model
-- `report.md` with a comparison table including:
-  - model ID
-  - cost
-  - duration
-  - preview image
-
-Durations marked with `*` are wall-clock timings measured by the client.
+1. **Generation** - calls each enabled model and saves outputs to `./results/images/`.
+2. **Thumbnails** - resizes each saved image to a 400x400 cover and writes to `./results/images/thumbnails/` with the same filename.
+3. **Charts** - renders cost and latency bar charts to `./results/images/charts/{cost.png, latency.png}`.
+4. **Report** - writes `./results/report.md` with a comparison table containing:
+   - model ID
+   - cost (gateway-reported when available)
+   - latency (wall-clock seconds, measured by the client)
+   - linked thumbnail preview (clicks through to the full image)
 
 ## Notes
 

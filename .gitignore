@@ -3,15 +3,5 @@ logs/
 dist/
 .env
 .env.local
-*.png
-*.jpg
-*.jpeg
-*.webp
 
-images/
-report*
-
-CLAUDE.md
-AGENTS.md
-.codex
-src/add-captions.ts
+results/images/captioned/
